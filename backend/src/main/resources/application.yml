@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ecotrack
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/ecotrack
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
