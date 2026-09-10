@@ -55,6 +55,13 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.12</version>
+				<configuration>
+					<excludes>
+						<exclude>br/com/ecotrack/EcotrackApplication.class</exclude>
+						<exclude>br/com/ecotrack/config/**</exclude>
+						<exclude>br/com/ecotrack/dto/**</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -76,11 +83,6 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
-							<excludes>
-								<exclude>br/com/ecotrack/EcotrackApplication.class</exclude>
-								<exclude>br/com/ecotrack/config/**</exclude>
-								<exclude>br/com/ecotrack/dto/**</exclude>
-							</excludes>
 							<rules>
 								<rule>
 									<element>BUNDLE</element>
