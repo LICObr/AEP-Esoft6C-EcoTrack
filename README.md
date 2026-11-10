@@ -4,7 +4,7 @@
 
 **Plataforma para descarte responsável e localização de pontos de coleta**
 
-![CI](https://github.com/LICObr/AEP-Esoft6C---EcoTrack/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/LICObr/AEP-Esoft6C-EcoTrack/actions/workflows/ci.yml/badge.svg)
 ![Cobertura](https://img.shields.io/badge/cobertura-em%20andamento-yellow)
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-6DB33F?logo=springboot&logoColor=white)
