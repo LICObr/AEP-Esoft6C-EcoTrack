@@ -40,9 +40,23 @@ export interface ItemDescarte {
 export interface Descarte {
   id: string;
   usuarioId: string;
+  usuarioNome: string | null;
   pontoColetaId: string;
+  pontoColetaNome: string | null;
   materiais: ItemDescarte[];
   data: string;
+}
+
+export interface TotalPorMaterial {
+  tipo: Material;
+  unidade: Unidade;
+  quantidade: number;
+  descartes: number;
+}
+
+export interface DashboardResumo {
+  totalDescartes: number;
+  porMaterial: TotalPorMaterial[];
 }
 
 export interface ErroApi {

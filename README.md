@@ -5,11 +5,11 @@
 **Plataforma para descarte responsável e localização de pontos de coleta**
 
 ![CI](https://github.com/LICObr/AEP-Esoft6C-EcoTrack/actions/workflows/ci.yml/badge.svg)
-![Cobertura](https://img.shields.io/badge/cobertura-em%20andamento-yellow)
+![Cobertura](https://img.shields.io/badge/cobertura-92%25-brightgreen)
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-6DB33F?logo=springboot&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white)
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![License](https://img.shields.io/badge/license-MIT-informational)
 
 *AEP 2026.2 · 6º semestre de Engenharia de Software · UniCesumar*
@@ -22,16 +22,16 @@
 
 - [O problema](#o-problema)
 - [ODS 12 — Consumo e Produção Responsáveis](#ods-12--consumo-e-produção-responsáveis)
-- [Funcionalidades da primeira entrega](#funcionalidades-da-primeira-entrega)
+- [Funcionalidades](#funcionalidades)
 - [Arquitetura](#arquitetura)
 - [Modelagem do banco (MongoDB)](#modelagem-do-banco-mongodb)
 - [Tecnologias e por quê](#tecnologias-e-por-quê)
 - [Como executar](#como-executar)
 - [Como testar e gerar a cobertura](#como-testar-e-gerar-a-cobertura)
+- [Documentação](#documentação)
 - [Demonstração](#demonstração)
 - [Equipe](#equipe)
 - [Versão desta entrega](#versão-desta-entrega)
-- [Roadmap — Segunda Entrega](#roadmap--segunda-entrega)
 - [Licença](#licença)
 
 ---
@@ -59,14 +59,25 @@ resíduos por meio da prevenção, redução, reciclagem e reúso."* A relação
 facilitando a informação sobre onde descartar, o aplicativo remove a principal barreira prática
 que leva ao descarte incorreto, incentivando hábitos de consumo e descarte mais conscientes.
 
-## Funcionalidades da primeira entrega
+## Funcionalidades
+
+Da primeira entrega:
 
 - [x] Cadastro de usuários e de pontos de coleta.
 - [x] Listagem de pontos de coleta ativos, com filtro por tipo de material aceito.
 - [x] Cadastro, atualização e desativação (soft delete) de pontos de coleta.
 - [x] Registro de descarte, validando que o ponto está ativo e aceita o material informado.
 - [x] Consulta do histórico de descartes de um usuário.
-- [x] Interface web com 4 telas cobrindo o fluxo completo.
+
+Da segunda entrega:
+
+- [x] Filtro de pontos por cidade, junto ou separado do filtro por material. O select de cidade
+  vem de `GET /api/pontos/cidades` (só cidades com ponto ativo).
+- [x] Dashboard com o total de descartes e a quantidade por material e unidade.
+- [x] Histórico mostra o ponto de coleta de cada descarte.
+- [x] Edição de ponto de coleta na tela de admin.
+- [x] Erro 400 de corpo inválido (JSON quebrado, material que não existe) no mesmo formato dos
+  outros erros da API.
 
 ## Arquitetura
 
@@ -83,15 +94,15 @@ flowchart LR
 | **Controller** | Recebe DTO validado, chama o service, devolve a resposta. Nenhuma regra de negócio. |
 | **Service** | Concentra toda a regra de negócio (ex.: só permite descarte se o ponto estiver ativo e aceitar o material). |
 | **Domain** | Entidades com construtor validador e métodos de comportamento (`PontoColeta.aceita()`, `desativar()`; `Descarte.validarContra()`). |
-| **Repository** | Interfaces do Spring Data — sem implementação manual de query. |
+| **Repository** | Interfaces do Spring Data. As consultas que o Spring não gera (agregação do dashboard e `distinct` das cidades) ficam em fragmentos próprios com `MongoTemplate`. |
 | **GlobalExceptionHandler** | Único ponto que traduz exceção de domínio em código HTTP. |
 
 Mais detalhes em [`docs/arquitetura.md`](docs/arquitetura.md).
 
 ## Modelagem do banco (MongoDB)
 
-Três coleções, com relacionamento por referência e pelo menos uma coleção com documentos
-aninhados/listas de subdocumentos:
+Três coleções. Os pontos têm endereço embutido e lista de materiais; o descarte guarda uma
+lista de itens e referencia usuário e ponto **por id (texto, não `ObjectId`)**.
 
 ```json
 // usuarios
@@ -99,21 +110,34 @@ aninhados/listas de subdocumentos:
 ```
 
 ```json
-// pontos_coleta — endereco aninhado + array de materiais
+// pontos_coleta — endereco embutido + array de materiais
 { "_id": "ObjectId", "nome": "Eco Ponto Centro", "ativo": true,
   "endereco": { "rua": "Av. Brasil", "numero": "1200", "bairro": "Zona 01", "cidade": "Maringá", "estado": "PR" },
   "materiaisAceitos": ["PILHAS", "ELETRONICOS", "PLASTICO"], "criadoEm": "ISODate" }
 ```
 
 ```json
-// descartes — lista de itens + referencias por id
-{ "_id": "ObjectId", "usuarioId": "ObjectId (ref usuarios)", "pontoColetaId": "ObjectId (ref pontos_coleta)",
+// descartes — itens embutidos + referencias por id + nomes copiados
+{ "_id": "ObjectId", "usuarioId": "string (ref usuarios)", "usuarioNome": "Joao Silva",
+  "pontoColetaId": "string (ref pontos_coleta)", "pontoColetaNome": "Eco Ponto Centro",
   "data": "ISODate", "materiais": [ { "tipo": "PILHAS", "quantidade": 5, "unidade": "UNIDADE" } ] }
 ```
 
-**Índices:** `usuarios.email` (único) · `pontos_coleta.materiaisAceitos` · `descartes.usuarioId`
+O que foi decidido e por quê:
 
-Detalhes completos em [`docs/modelagem-nosql.md`](docs/modelagem-nosql.md).
+- **Referência com cópia dos nomes** (Extended Reference): o descarte guarda `usuarioNome` e
+  `pontoColetaNome` pra mostrar o histórico sem segunda consulta. Descartes antigos não têm os
+  nomes (vêm `null`).
+- **Índices criados pela aplicação** (`auto-index-creation`): `usuarios.email` (único),
+  `descartes` por `usuarioId` + `data` (decrescente), `pontos_coleta` por `ativo` + `materiaisAceitos`
+  e por `ativo` + `endereco.cidade`. A ordem segue a regra ESR e o `explain` mostra `IXSCAN` sem
+  ordenação em memória.
+- **Validação de esquema no banco** (`$jsonSchema`) nas três coleções, além da validação da API.
+- **Agregação** (`$unwind` + `$group`) para o dashboard, somando por material **e** unidade, e
+  `distinct` para a lista de cidades.
+
+Detalhes, `explain` e consultas prontas em [`docs/modelagem-nosql.md`](docs/modelagem-nosql.md) e
+[`docs/consultas-mongosh.js`](docs/consultas-mongosh.js).
 
 ## Tecnologias e por quê
 
@@ -121,16 +145,18 @@ Detalhes completos em [`docs/modelagem-nosql.md`](docs/modelagem-nosql.md).
 |---|---|
 | Java 21 + Spring Boot | Linguagem orientada a objetos, aplicando o paradigma na prática (disciplina de Paradigmas de Linguagem) |
 | MongoDB | Banco NoSQL com documentos aninhados e arrays, atendendo aos requisitos de Banco de Dados NoSQL |
-| Spring Data MongoDB | Gera as consultas a partir da interface do repositório, sem SQL/queries manuais |
+| Spring Data MongoDB | Gera as consultas a partir da interface do repositório; `MongoTemplate` onde precisa de agregação |
 | JUnit 5 + Mockito + AssertJ | Testes de domínio, service e controller (disciplina de Testes de Software) |
+| Testcontainers | Testes de repositório, índices e esquema contra um MongoDB de verdade |
 | JaCoCo | Mede e garante a cobertura mínima de 70% a cada entrega |
 | springdoc-openapi (Swagger) | Documentação e teste manual dos endpoints |
 | React + Vite + TypeScript | Interface para demonstrar o fluxo completo de ponta a ponta |
-| GitHub Actions | CI que roda `./mvnw verify` a cada push/PR |
+| Vitest + Testing Library | Testes das telas, com a API mockada |
+| GitHub Actions | CI que roda `./mvnw verify` (backend) e `npm test` + `npm run build` (front) a cada push/PR |
 
 ## Como executar
 
-Pré-requisitos: **Java 21**, **Docker**, **Node 20**.
+Pré-requisitos: **Java 21**, **Docker**, **Node 20 ou mais novo**.
 
 ```bash
 # 1. Sobe o MongoDB
@@ -142,6 +168,7 @@ cd backend
 
 # 3. Frontend (em outro terminal)
 cd frontend
+cp .env.example .env
 npm install
 npm run dev
 ```
@@ -152,45 +179,63 @@ npm run dev
 | Swagger UI | `http://localhost:8080/swagger-ui.html` |
 | Frontend | `http://localhost:5173` |
 
+O seed só grava se o banco estiver vazio (8 pontos em Maringá, Sarandi e Paicandu e 10
+descartes). Se o banco `ecotrack` já tinha dados da entrega 1, apague ele antes pra ver as
+cidades novas e os nomes nos descartes.
+
 > **Atenção:** o `pom.xml` está fixado no Spring Boot 3.3.4. Compile com **Java 21** —
 > versões mais novas da JDK não são compatíveis com a versão do JaCoCo usada no projeto.
+> Só um MongoDB pode usar a porta 27017 (o do `docker compose` ou um `mongod` local).
 
 ## Como testar e gerar a cobertura
 
 ```bash
+# backend (precisa do Docker rodando: alguns testes sobem um MongoDB)
 cd backend
 ./mvnw verify
+
+# frontend
+cd frontend
+npm test
 ```
 
-O relatório do JaCoCo fica em `backend/target/site/jacoco/index.html`. Print da última medição
-em [`docs/cobertura-entrega1.png`](docs/cobertura-entrega1.png).
+Hoje são **95 testes no backend** e **6 no front**. O JaCoCo mede **92% das linhas e 87% dos
+branches** (o `verify` falha abaixo de 70%). O relatório fica em
+`backend/target/site/jacoco/index.html`. Print da medição em
+[`docs/cobertura-entrega2.png`](docs/cobertura-entrega2.png).
 
 **Exclusões do JaCoCo** (justificativa): `EcotrackApplication` (classe de bootstrap, sem lógica
-de negócio), pacote `config` (beans de infraestrutura — conexão, CORS, OpenAPI — sem regra pra
-testar) e pacote `dto` (records de validação de entrada, sem comportamento próprio).
+de negócio), pacote `config` (beans de infraestrutura — conexão, CORS, OpenAPI, seed e o esquema
+do Mongo; o esquema é testado à parte contra um MongoDB real) e pacote `dto` (records de
+validação de entrada, sem comportamento próprio).
+
+## Documentação
+
+| Documento | O que tem |
+|---|---|
+| [`docs/produto.md`](docs/produto.md) | Visão, personas, requisitos, regras de negócio e histórias de usuário |
+| [`docs/manual-usuario.md`](docs/manual-usuario.md) | Passo a passo de cada tela, com prints |
+| [`docs/api.md`](docs/api.md) | Rotas, filtros, formato de erro e exemplos |
+| [`docs/modelagem-nosql.md`](docs/modelagem-nosql.md) | Modelagem, índices, esquema, agregação e `explain` |
+| [`docs/decisoes.md`](docs/decisoes.md) | Decisões de arquitetura (ADRs) |
+| [`docs/arquitetura.md`](docs/arquitetura.md) | Camadas e responsabilidades |
+| [`CHANGELOG.md`](CHANGELOG.md) | O que mudou da entrega 1 pra entrega 2 |
 
 ## Demonstração
 
-_[Prints do Swagger e das 4 telas — adicionar após a gravação do vídeo.]_
+Prints de cada tela no [manual do usuário](docs/manual-usuario.md). Vídeo: _[link aqui após gravar]_
 
 ## Equipe
 
 | RA | Nome | Frente |
 |---|---|---|
-| — | Danilo | Domínio, regras de negócio e services do backend |
-| — | Pedro | Camada web do backend (DTOs, mappers, controllers) e frontend completo |
-| — | Thales | Banco de dados, testes automatizados, CI e documentação |
+| — | Danilo | Modelagem do MongoDB (índices, agregação, distinct), regras de negócio e services |
+| — | Pedro | Dashboard e filtros na API, telas do front (dashboard, cidade, edição), testes de tela e docs de API e manual |
+| — | Talis | Testes com MongoDB real, validação de esquema, docs de modelagem, produto e decisões |
 
 ## Versão desta entrega
 
-`v1.0.0-entrega1` — vídeo de demonstração: _[link aqui após gravar]_
-
-## Roadmap — Segunda Entrega
-
-- Dashboard com totais e indicadores por material/período.
-- Filtros adicionais (cidade, status).
-- Testes de repositório com banco real.
-- Documentação técnica completa e melhorias visuais no frontend.
+`v2.0.0-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Licença
 

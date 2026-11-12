@@ -4,6 +4,7 @@ const links = [
   { to: '/', label: 'Pontos de coleta', end: true },
   { to: '/registrar', label: 'Registrar descarte' },
   { to: '/historico', label: 'Meu histórico' },
+  { to: '/dashboard', label: 'Dashboard' },
   { to: '/admin', label: 'Admin de pontos' },
 ]
 

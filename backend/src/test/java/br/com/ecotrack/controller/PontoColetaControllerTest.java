@@ -62,7 +62,7 @@ class PontoColetaControllerTest {
 
     @Test
     void deveListarPontosAtivos() throws Exception {
-        when(pontoColetaService.listarAtivos())
+        when(pontoColetaService.filtrar(null, null))
                 .thenReturn(List.of(new PontoColeta("Eco Ponto", endereco, Set.of(Material.PILHAS))));
 
         mockMvc.perform(get("/api/pontos"))
@@ -72,12 +72,42 @@ class PontoColetaControllerTest {
 
     @Test
     void deveFiltrarPontosPorMaterial() throws Exception {
-        when(pontoColetaService.filtrarPorMaterial(Material.VIDRO))
+        when(pontoColetaService.filtrar(Material.VIDRO, null))
                 .thenReturn(List.of(new PontoColeta("Eco Vidro", endereco, Set.of(Material.VIDRO))));
 
         mockMvc.perform(get("/api/pontos").param("material", "VIDRO"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].nome", is("Eco Vidro")));
+    }
+
+    @Test
+    void deveFiltrarPontosPorCidade() throws Exception {
+        when(pontoColetaService.filtrar(null, "Sarandi"))
+                .thenReturn(List.of(new PontoColeta("Eco Sarandi", endereco, Set.of(Material.PILHAS))));
+
+        mockMvc.perform(get("/api/pontos").param("cidade", "Sarandi"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].nome", is("Eco Sarandi")));
+    }
+
+    @Test
+    void deveFiltrarPontosPorMaterialECidade() throws Exception {
+        when(pontoColetaService.filtrar(Material.VIDRO, "Maringa"))
+                .thenReturn(List.of(new PontoColeta("Eco Vidro", endereco, Set.of(Material.VIDRO))));
+
+        mockMvc.perform(get("/api/pontos").param("material", "VIDRO").param("cidade", "Maringa"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].nome", is("Eco Vidro")));
+    }
+
+    @Test
+    void deveListarAsCidadesComPontoAtivo() throws Exception {
+        when(pontoColetaService.listarCidades()).thenReturn(List.of("Maringa", "Sarandi"));
+
+        mockMvc.perform(get("/api/pontos/cidades"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]", is("Maringa")))
+                .andExpect(jsonPath("$[1]", is("Sarandi")));
     }
 
     @Test

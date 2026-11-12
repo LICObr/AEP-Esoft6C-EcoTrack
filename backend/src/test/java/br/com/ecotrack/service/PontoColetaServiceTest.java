@@ -59,6 +59,55 @@ class PontoColetaServiceTest {
     }
 
     @Test
+    void deveFiltrarPorMaterialECidadeQuandoOsDoisForemInformados() {
+        PontoColeta ponto = new PontoColeta("Eco Ponto", endereco, Set.of(Material.VIDRO));
+        when(pontoColetaRepository.findByAtivoTrueAndMateriaisAceitosContainingAndEnderecoCidade(Material.VIDRO, "Maringá"))
+                .thenReturn(List.of(ponto));
+
+        List<PontoColeta> resultado = pontoColetaService.filtrar(Material.VIDRO, "Maringá");
+
+        assertThat(resultado).containsExactly(ponto);
+    }
+
+    @Test
+    void deveFiltrarSoPorCidadeQuandoNaoTemMaterial() {
+        PontoColeta ponto = new PontoColeta("Eco Ponto", endereco, Set.of(Material.VIDRO));
+        when(pontoColetaRepository.findByAtivoTrueAndEnderecoCidade("Maringá")).thenReturn(List.of(ponto));
+
+        List<PontoColeta> resultado = pontoColetaService.filtrar(null, "Maringá");
+
+        assertThat(resultado).containsExactly(ponto);
+    }
+
+    @Test
+    void deveFiltrarSoPorMaterialQuandoNaoTemCidade() {
+        PontoColeta ponto = new PontoColeta("Eco Ponto", endereco, Set.of(Material.PILHAS));
+        when(pontoColetaRepository.findByAtivoTrueAndMateriaisAceitosContaining(Material.PILHAS))
+                .thenReturn(List.of(ponto));
+
+        List<PontoColeta> resultado = pontoColetaService.filtrar(Material.PILHAS, null);
+
+        assertThat(resultado).containsExactly(ponto);
+    }
+
+    @Test
+    void deveListarTodosOsAtivosQuandoNaoTemFiltro() {
+        PontoColeta ponto = new PontoColeta("Eco Ponto", endereco, Set.of(Material.PILHAS));
+        when(pontoColetaRepository.findByAtivoTrue()).thenReturn(List.of(ponto));
+
+        List<PontoColeta> resultado = pontoColetaService.filtrar(null, null);
+
+        assertThat(resultado).containsExactly(ponto);
+    }
+
+    @Test
+    void deveListarAsCidadesComPontoAtivo() {
+        when(pontoColetaRepository.listarCidadesAtivas()).thenReturn(List.of("Maringá", "Sarandi"));
+
+        assertThat(pontoColetaService.listarCidades()).containsExactly("Maringá", "Sarandi");
+    }
+
+    @Test
     void deveAtualizarPontoExistente() {
         PontoColeta ponto = new PontoColeta("Eco Ponto", endereco, Set.of(Material.PILHAS));
         when(pontoColetaRepository.findById("1")).thenReturn(Optional.of(ponto));

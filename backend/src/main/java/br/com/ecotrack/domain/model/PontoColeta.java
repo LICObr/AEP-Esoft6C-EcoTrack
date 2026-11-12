@@ -6,10 +6,17 @@ import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "pontos_coleta")
+@CompoundIndexes({
+        // filtro de pontos ativos por material
+        @CompoundIndex(name = "ativo_materiais", def = "{'ativo': 1, 'materiaisAceitos': 1}"),
+        // filtro de pontos ativos por cidade (a cidade vem de um select, entao busca exata)
+        @CompoundIndex(name = "ativo_cidade", def = "{'ativo': 1, 'endereco.cidade': 1}")
+})
 public class PontoColeta {
 
     @Id
@@ -19,7 +26,6 @@ public class PontoColeta {
 
     private Endereco endereco;
 
-    @Indexed
     private Set<Material> materiaisAceitos;
 
     private boolean ativo;

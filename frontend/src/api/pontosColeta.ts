@@ -1,9 +1,16 @@
 import { requisitar } from "./cliente";
 import type { Endereco, Material, PontoColeta } from "./tipos";
 
-export function listarPontos(material?: Material): Promise<PontoColeta[]> {
-  const query = material ? `?material=${material}` : "";
-  return requisitar<PontoColeta[]>(`/api/pontos${query}`);
+export function listarPontos(material?: Material, cidade?: string): Promise<PontoColeta[]> {
+  const params = new URLSearchParams();
+  if (material) params.set("material", material);
+  if (cidade) params.set("cidade", cidade);
+  const query = params.toString();
+  return requisitar<PontoColeta[]>(`/api/pontos${query ? `?${query}` : ""}`);
+}
+
+export function listarCidades(): Promise<string[]> {
+  return requisitar<string[]>("/api/pontos/cidades");
 }
 
 export function cadastrarPonto(

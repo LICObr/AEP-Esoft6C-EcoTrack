@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,6 +50,13 @@ public class GlobalExceptionHandler {
             MethodArgumentTypeMismatchException excecao, HttpServletRequest requisicao) {
         String mensagem = "Valor invalido para o parametro '" + excecao.getName() + "'.";
         return construirResposta(HttpStatus.BAD_REQUEST, mensagem, requisicao);
+    }
+
+    // json quebrado ou valor de enum que nao existe no corpo
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, Object>> tratarCorpoInvalido(
+            HttpMessageNotReadableException excecao, HttpServletRequest requisicao) {
+        return construirResposta(HttpStatus.BAD_REQUEST, "Corpo da requisicao invalido.", requisicao);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
