@@ -7,29 +7,14 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Import;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-import br.com.ecotrack.config.MongoConfig;
 import br.com.ecotrack.domain.model.Descarte;
 import br.com.ecotrack.domain.model.ItemDescarte;
 import br.com.ecotrack.domain.model.Material;
 import br.com.ecotrack.domain.model.TotalPorMaterial;
 import br.com.ecotrack.domain.model.Unidade;
 
-// precisa do docker rodando
-@DataMongoTest
-@Testcontainers
-@Import(MongoConfig.class)
-class DescarteRepositoryIntegracaoTest {
-
-    @Container
-    @ServiceConnection
-    static MongoDBContainer mongo = new MongoDBContainer("mongo:7");
+class DescarteRepositoryIntegracaoTest extends MongoIntegracaoBase {
 
     @Autowired
     private DescarteRepository descarteRepository;
