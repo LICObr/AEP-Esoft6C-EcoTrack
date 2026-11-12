@@ -60,6 +60,14 @@ public class DataSeeder {
                     new Endereco("Rua Santos Dumont", "450", "Cidade Alta", "Maringa", "PR"),
                     Set.of(Material.PAPEL, Material.PLASTICO, Material.VIDRO)));
 
+            PontoColeta sarandi = pontoColetaRepository.save(new PontoColeta("Eco Ponto Sarandi",
+                    new Endereco("Rua das Palmeiras", "210", "Centro", "Sarandi", "PR"),
+                    Set.of(Material.PILHAS, Material.PAPEL, Material.METAL)));
+
+            PontoColeta paicandu = pontoColetaRepository.save(new PontoColeta("Eco Ponto Paicandu",
+                    new Endereco("Av. dos Ipes", "95", "Jardim Alvorada", "Paicandu", "PR"),
+                    Set.of(Material.OLEO, Material.VIDRO, Material.ELETRONICOS)));
+
             descarteRepository.save(new Descarte(joao.getId(), joao.getNome(), centro.getId(), centro.getNome(),
                     List.of(new ItemDescarte(Material.PILHAS, 10, Unidade.UNIDADE))));
             descarteRepository.save(new Descarte(joao.getId(), joao.getNome(), novoCentro.getId(), novoCentro.getNome(),
@@ -76,6 +84,11 @@ public class DataSeeder {
                     List.of(new ItemDescarte(Material.PAPEL, 8, Unidade.KG))));
             descarteRepository.save(new Descarte(maria.getId(), maria.getNome(), novoCentro.getId(), novoCentro.getNome(),
                     List.of(new ItemDescarte(Material.PLASTICO, 4, Unidade.KG))));
+            descarteRepository.save(new Descarte(pedro.getId(), pedro.getNome(), sarandi.getId(), sarandi.getNome(),
+                    List.of(new ItemDescarte(Material.PILHAS, 6, Unidade.UNIDADE),
+                            new ItemDescarte(Material.PAPEL, 2, Unidade.KG))));
+            descarteRepository.save(new Descarte(joao.getId(), joao.getNome(), paicandu.getId(), paicandu.getNome(),
+                    List.of(new ItemDescarte(Material.OLEO, 5, Unidade.LITRO))));
         };
     }
 }
