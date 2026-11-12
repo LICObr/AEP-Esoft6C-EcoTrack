@@ -44,7 +44,9 @@ class DescarteControllerTest {
                                 {"usuarioId":"u1","pontoColetaId":"p1","materiais":[{"tipo":"PILHAS","quantidade":5,"unidade":"UNIDADE"}]}
                                 """))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.usuarioId", is("u1")));
+                .andExpect(jsonPath("$.usuarioId", is("u1")))
+                .andExpect(jsonPath("$.usuarioNome", is("Joao")))
+                .andExpect(jsonPath("$.pontoColetaNome", is("Eco Ponto")));
     }
 
     @Test

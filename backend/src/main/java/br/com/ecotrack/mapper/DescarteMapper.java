@@ -26,7 +26,9 @@ public final class DescarteMapper {
         return new DescarteResponse(
                 descarte.getId(),
                 descarte.getUsuarioId(),
+                descarte.getUsuarioNome(),
                 descarte.getPontoColetaId(),
+                descarte.getPontoColetaNome(),
                 materiais,
                 descarte.getData());
     }
