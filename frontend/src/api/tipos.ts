@@ -45,6 +45,18 @@ export interface Descarte {
   data: string;
 }
 
+export interface TotalPorMaterial {
+  tipo: Material;
+  unidade: Unidade;
+  quantidade: number;
+  descartes: number;
+}
+
+export interface DashboardResumo {
+  totalDescartes: number;
+  porMaterial: TotalPorMaterial[];
+}
+
 export interface ErroApi {
   timestamp: string;
   status: number;
