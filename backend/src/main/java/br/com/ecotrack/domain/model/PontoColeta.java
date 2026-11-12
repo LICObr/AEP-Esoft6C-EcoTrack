@@ -6,10 +6,12 @@ import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "pontos_coleta")
+// atende o filtro de pontos ativos por material (igualdade + igualdade)
+@CompoundIndex(name = "ativo_materiais", def = "{'ativo': 1, 'materiaisAceitos': 1}")
 public class PontoColeta {
 
     @Id
@@ -19,7 +21,6 @@ public class PontoColeta {
 
     private Endereco endereco;
 
-    @Indexed
     private Set<Material> materiaisAceitos;
 
     private boolean ativo;

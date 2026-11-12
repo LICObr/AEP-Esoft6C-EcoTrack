@@ -16,7 +16,7 @@ class DescarteTest {
 
     @Test
     void deveCalcularTotalDeItens() {
-        Descarte descarte = new Descarte("u1", "p1", List.of(
+        Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto", List.of(
                 new ItemDescarte(Material.PILHAS, 5, Unidade.UNIDADE),
                 new ItemDescarte(Material.VIDRO, 3, Unidade.KG)));
 
@@ -26,24 +26,45 @@ class DescarteTest {
     @Test
     void deveRejeitarCriacaoSemUsuario() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Descarte(" ", "p1", List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE))));
+                () -> new Descarte(" ", "Joao", "p1", "Eco Ponto", List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE))));
     }
 
     @Test
     void deveRejeitarCriacaoSemPontoColeta() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Descarte("u1", " ", List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE))));
+                () -> new Descarte("u1", "Joao", " ", "Eco Ponto", List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE))));
+    }
+
+    @Test
+    void deveRejeitarCriacaoSemNomeDoUsuario() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Descarte("u1", " ", "p1", "Eco Ponto", List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE))));
+    }
+
+    @Test
+    void deveRejeitarCriacaoSemNomeDoPonto() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Descarte("u1", "Joao", "p1", null, List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE))));
+    }
+
+    @Test
+    void deveGuardarOsNomesInformados() {
+        Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto",
+                List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE)));
+
+        assertThat(descarte.getUsuarioNome()).isEqualTo("Joao");
+        assertThat(descarte.getPontoColetaNome()).isEqualTo("Eco Ponto");
     }
 
     @Test
     void deveRejeitarCriacaoSemMateriais() {
-        assertThrows(IllegalArgumentException.class, () -> new Descarte("u1", "p1", List.of()));
+        assertThrows(IllegalArgumentException.class, () -> new Descarte("u1", "Joao", "p1", "Eco Ponto", List.of()));
     }
 
     @Test
     void deveValidarComSucessoQuandoPontoAceitaTodosOsMateriais() {
         PontoColeta ponto = new PontoColeta("Eco Ponto", endereco, Set.of(Material.PILHAS));
-        Descarte descarte = new Descarte("u1", "p1",
+        Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto",
                 List.of(new ItemDescarte(Material.PILHAS, 5, Unidade.UNIDADE)));
 
         descarte.validarContra(ponto);
@@ -53,7 +74,7 @@ class DescarteTest {
     void deveRejeitarQuandoPontoEstaInativo() {
         PontoColeta ponto = new PontoColeta("Eco Ponto", endereco, Set.of(Material.PILHAS));
         ponto.desativar();
-        Descarte descarte = new Descarte("u1", "p1",
+        Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto",
                 List.of(new ItemDescarte(Material.PILHAS, 5, Unidade.UNIDADE)));
 
         assertThrows(RegraDeNegocioException.class, () -> descarte.validarContra(ponto));
@@ -62,7 +83,7 @@ class DescarteTest {
     @Test
     void deveRejeitarQuandoPontoNaoAceitaOMaterial() {
         PontoColeta ponto = new PontoColeta("Eco Ponto", endereco, Set.of(Material.PILHAS));
-        Descarte descarte = new Descarte("u1", "p1",
+        Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto",
                 List.of(new ItemDescarte(Material.OLEO, 2, Unidade.LITRO)));
 
         assertThrows(RegraDeNegocioException.class, () -> descarte.validarContra(ponto));

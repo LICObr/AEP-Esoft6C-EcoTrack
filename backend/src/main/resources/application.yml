@@ -4,6 +4,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/ecotrack
+      # sem isso o spring ignora os @Indexed/@CompoundIndex das entidades
+      auto-index-creation: true
 
 server:
   port: 8080

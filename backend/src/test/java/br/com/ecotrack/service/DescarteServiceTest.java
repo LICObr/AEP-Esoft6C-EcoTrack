@@ -71,6 +71,22 @@ class DescarteServiceTest {
     }
 
     @Test
+    void deveCopiarOsNomesDoUsuarioEDoPontoParaODescarte() {
+        Usuario usuario = usuarioComId("u1");
+        PontoColeta ponto = pontoComId("p1", Material.PILHAS);
+
+        when(usuarioService.buscarPorId("u1")).thenReturn(usuario);
+        when(pontoColetaService.buscarPorId("p1")).thenReturn(ponto);
+        when(descarteRepository.save(any(Descarte.class))).thenAnswer(c -> c.getArgument(0));
+
+        Descarte descarte = descarteService.registrar("u1", "p1",
+                List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE)));
+
+        assertThat(descarte.getUsuarioNome()).isEqualTo("Joao");
+        assertThat(descarte.getPontoColetaNome()).isEqualTo("Eco Ponto");
+    }
+
+    @Test
     void deveRejeitarQuandoUsuarioNaoExiste() {
         when(usuarioService.buscarPorId("u1")).thenThrow(new RecursoNaoEncontradoException("Usuario nao encontrado."));
 
