@@ -60,21 +60,21 @@ public class DataSeeder {
                     new Endereco("Rua Santos Dumont", "450", "Cidade Alta", "Maringa", "PR"),
                     Set.of(Material.PAPEL, Material.PLASTICO, Material.VIDRO)));
 
-            descarteRepository.save(new Descarte(joao.getId(), centro.getId(),
+            descarteRepository.save(new Descarte(joao.getId(), joao.getNome(), centro.getId(), centro.getNome(),
                     List.of(new ItemDescarte(Material.PILHAS, 10, Unidade.UNIDADE))));
-            descarteRepository.save(new Descarte(joao.getId(), novoCentro.getId(),
+            descarteRepository.save(new Descarte(joao.getId(), joao.getNome(), novoCentro.getId(), novoCentro.getNome(),
                     List.of(new ItemDescarte(Material.OLEO, 2, Unidade.LITRO))));
-            descarteRepository.save(new Descarte(maria.getId(), zonaSete.getId(),
+            descarteRepository.save(new Descarte(maria.getId(), maria.getNome(), zonaSete.getId(), zonaSete.getNome(),
                     List.of(new ItemDescarte(Material.VIDRO, 5, Unidade.KG))));
-            descarteRepository.save(new Descarte(maria.getId(), centro.getId(),
+            descarteRepository.save(new Descarte(maria.getId(), maria.getNome(), centro.getId(), centro.getNome(),
                     List.of(new ItemDescarte(Material.ELETRONICOS, 1, Unidade.UNIDADE))));
-            descarteRepository.save(new Descarte(pedro.getId(), parqueDoIngas.getId(),
+            descarteRepository.save(new Descarte(pedro.getId(), pedro.getNome(), parqueDoIngas.getId(), parqueDoIngas.getNome(),
                     List.of(new ItemDescarte(Material.PILHAS, 20, Unidade.UNIDADE))));
-            descarteRepository.save(new Descarte(pedro.getId(), contornoNorte.getId(),
+            descarteRepository.save(new Descarte(pedro.getId(), pedro.getNome(), contornoNorte.getId(), contornoNorte.getNome(),
                     List.of(new ItemDescarte(Material.METAL, 3, Unidade.KG))));
-            descarteRepository.save(new Descarte(joao.getId(), cidadeAlta.getId(),
+            descarteRepository.save(new Descarte(joao.getId(), joao.getNome(), cidadeAlta.getId(), cidadeAlta.getNome(),
                     List.of(new ItemDescarte(Material.PAPEL, 8, Unidade.KG))));
-            descarteRepository.save(new Descarte(maria.getId(), novoCentro.getId(),
+            descarteRepository.save(new Descarte(maria.getId(), maria.getNome(), novoCentro.getId(), novoCentro.getNome(),
                     List.of(new ItemDescarte(Material.PLASTICO, 4, Unidade.KG))));
         };
     }

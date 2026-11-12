@@ -35,7 +35,7 @@ class DescarteControllerTest {
 
     @Test
     void deveRegistrarDescarteERetornar201() throws Exception {
-        Descarte descarte = new Descarte("u1", "p1", List.of(new ItemDescarte(Material.PILHAS, 5, Unidade.UNIDADE)));
+        Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto", List.of(new ItemDescarte(Material.PILHAS, 5, Unidade.UNIDADE)));
         when(descarteService.registrar(any(), any(), any())).thenReturn(descarte);
 
         mockMvc.perform(post("/api/descartes")
@@ -72,7 +72,7 @@ class DescarteControllerTest {
 
     @Test
     void deveListarHistoricoDoUsuario() throws Exception {
-        Descarte descarte = new Descarte("u1", "p1", List.of(new ItemDescarte(Material.PILHAS, 5, Unidade.UNIDADE)));
+        Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto", List.of(new ItemDescarte(Material.PILHAS, 5, Unidade.UNIDADE)));
         when(descarteService.listarHistoricoDoUsuario("u1")).thenReturn(List.of(descarte));
 
         mockMvc.perform(get("/api/descartes/usuario/u1"))

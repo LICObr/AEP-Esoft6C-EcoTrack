@@ -29,7 +29,7 @@ public class DescarteService {
         Usuario usuario = usuarioService.buscarPorId(usuarioId);
         PontoColeta ponto = pontoColetaService.buscarPorId(pontoColetaId);
 
-        Descarte descarte = new Descarte(usuario.getId(), ponto.getId(), materiais);
+        Descarte descarte = new Descarte(usuario.getId(), usuario.getNome(), ponto.getId(), ponto.getNome(), materiais);
         descarte.validarContra(ponto);
 
         return descarteRepository.save(descarte);

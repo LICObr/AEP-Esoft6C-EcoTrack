@@ -20,25 +20,31 @@ public class Descarte {
 
     private String usuarioId;
 
+    // nome copiado na hora do descarte, o historico nao muda se o cadastro mudar
+    private String usuarioNome;
+
     private String pontoColetaId;
+
+    private String pontoColetaNome;
 
     private List<ItemDescarte> materiais;
 
     @CreatedDate
     private LocalDateTime data;
 
-    public Descarte(String usuarioId, String pontoColetaId, List<ItemDescarte> materiais) {
-        if (usuarioId == null || usuarioId.isBlank()) {
-            throw new IllegalArgumentException("O usuario do descarte e obrigatorio.");
-        }
-        if (pontoColetaId == null || pontoColetaId.isBlank()) {
-            throw new IllegalArgumentException("O ponto de coleta do descarte e obrigatorio.");
-        }
+    public Descarte(String usuarioId, String usuarioNome, String pontoColetaId,
+                    String pontoColetaNome, List<ItemDescarte> materiais) {
+        exigirTexto(usuarioId, "O usuario do descarte e obrigatorio.");
+        exigirTexto(usuarioNome, "O nome do usuario do descarte e obrigatorio.");
+        exigirTexto(pontoColetaId, "O ponto de coleta do descarte e obrigatorio.");
+        exigirTexto(pontoColetaNome, "O nome do ponto de coleta do descarte e obrigatorio.");
         if (materiais == null || materiais.isEmpty()) {
             throw new IllegalArgumentException("O descarte deve ter pelo menos um material.");
         }
         this.usuarioId = usuarioId;
+        this.usuarioNome = usuarioNome;
         this.pontoColetaId = pontoColetaId;
+        this.pontoColetaNome = pontoColetaNome;
         this.materiais = materiais;
     }
 
@@ -58,6 +64,12 @@ public class Descarte {
         }
     }
 
+    private void exigirTexto(String valor, String mensagem) {
+        if (valor == null || valor.isBlank()) {
+            throw new IllegalArgumentException(mensagem);
+        }
+    }
+
     public String getId() {
         return id;
     }
@@ -66,8 +78,16 @@ public class Descarte {
         return usuarioId;
     }
 
+    public String getUsuarioNome() {
+        return usuarioNome;
+    }
+
     public String getPontoColetaId() {
         return pontoColetaId;
+    }
+
+    public String getPontoColetaNome() {
+        return pontoColetaNome;
     }
 
     public List<ItemDescarte> getMateriais() {
