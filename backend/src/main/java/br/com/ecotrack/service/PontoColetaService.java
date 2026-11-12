@@ -38,6 +38,25 @@ public class PontoColetaService {
         return pontoColetaRepository.findByAtivoTrueAndMateriaisAceitosContaining(material);
     }
 
+    // os dois filtros sao opcionais, null significa "sem filtro"
+    public List<PontoColeta> filtrar(Material material, String cidade) {
+        if (material != null && cidade != null) {
+            return pontoColetaRepository
+                    .findByAtivoTrueAndMateriaisAceitosContainingAndEnderecoCidade(material, cidade);
+        }
+        if (material != null) {
+            return filtrarPorMaterial(material);
+        }
+        if (cidade != null) {
+            return pontoColetaRepository.findByAtivoTrueAndEnderecoCidade(cidade);
+        }
+        return listarAtivos();
+    }
+
+    public List<String> listarCidades() {
+        return pontoColetaRepository.listarCidadesAtivas();
+    }
+
     public PontoColeta atualizar(String id, String nome, Endereco endereco, Set<Material> materiaisAceitos) {
         PontoColeta ponto = buscarPorId(id);
         ponto.atualizar(nome, endereco, materiaisAceitos);
