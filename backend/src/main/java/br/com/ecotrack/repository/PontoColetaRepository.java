@@ -12,4 +12,8 @@ public interface PontoColetaRepository extends MongoRepository<PontoColeta, Stri
     List<PontoColeta> findByAtivoTrue();
 
     List<PontoColeta> findByAtivoTrueAndMateriaisAceitosContaining(Material material);
+
+    List<PontoColeta> findByAtivoTrueAndEnderecoCidade(String cidade);
+
+    List<PontoColeta> findByAtivoTrueAndMateriaisAceitosContainingAndEnderecoCidade(Material material, String cidade);
 }
