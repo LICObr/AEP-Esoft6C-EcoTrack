@@ -43,15 +43,19 @@ public class PontoColetaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PontoColetaResponse>> listarAtivos(
-            @RequestParam(required = false) Material material) {
-        List<PontoColeta> pontos = material == null
-                ? pontoColetaService.listarAtivos()
-                : pontoColetaService.filtrarPorMaterial(material);
-        List<PontoColetaResponse> resposta = pontos.stream()
+    public ResponseEntity<List<PontoColetaResponse>> listar(
+            @RequestParam(required = false) Material material,
+            @RequestParam(required = false) String cidade) {
+        List<PontoColetaResponse> resposta = pontoColetaService.filtrar(material, cidade).stream()
                 .map(PontoColetaMapper::paraResposta)
                 .toList();
         return ResponseEntity.ok(resposta);
+    }
+
+    // fica antes do /{id} so por organizacao, o spring ja prefere o caminho fixo
+    @GetMapping("/cidades")
+    public ResponseEntity<List<String>> listarCidades() {
+        return ResponseEntity.ok(pontoColetaService.listarCidades());
     }
 
     @GetMapping("/{id}")
