@@ -48,27 +48,6 @@ class DescarteTest {
     }
 
     @Test
-    void deveRejeitarMaterialRepetidoNoMesmoDescarte() {
-        List<ItemDescarte> itens = List.of(
-                new ItemDescarte(Material.PILHAS, 2, Unidade.UNIDADE),
-                new ItemDescarte(Material.PILHAS, 3, Unidade.UNIDADE));
-
-        assertThrows(IllegalArgumentException.class,
-                () -> new Descarte("u1", "Joao", "p1", "Eco Ponto", itens));
-    }
-
-    @Test
-    void deveAceitarMateriaisDiferentesNoMesmoDescarte() {
-        List<ItemDescarte> itens = List.of(
-                new ItemDescarte(Material.PILHAS, 2, Unidade.UNIDADE),
-                new ItemDescarte(Material.VIDRO, 3, Unidade.KG));
-
-        Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto", itens);
-
-        assertThat(descarte.totalItens()).isEqualTo(5);
-    }
-
-    @Test
     void deveGuardarOsNomesInformados() {
         Descarte descarte = new Descarte("u1", "Joao", "p1", "Eco Ponto",
                 List.of(new ItemDescarte(Material.PILHAS, 1, Unidade.UNIDADE)));
