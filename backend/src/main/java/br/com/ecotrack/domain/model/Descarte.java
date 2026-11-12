@@ -41,6 +41,9 @@ public class Descarte {
         if (materiais == null || materiais.isEmpty()) {
             throw new IllegalArgumentException("O descarte deve ter pelo menos um material.");
         }
+        if (temMaterialRepetido(materiais)) {
+            throw new IllegalArgumentException("O descarte nao pode ter o mesmo material repetido.");
+        }
         this.usuarioId = usuarioId;
         this.usuarioNome = usuarioNome;
         this.pontoColetaId = pontoColetaId;
@@ -62,6 +65,11 @@ public class Descarte {
                         "O ponto de coleta nao aceita o material " + item.tipo() + ".");
             }
         }
+    }
+
+    private boolean temMaterialRepetido(List<ItemDescarte> itens) {
+        long tiposDiferentes = itens.stream().map(ItemDescarte::tipo).distinct().count();
+        return tiposDiferentes != itens.size();
     }
 
     private void exigirTexto(String valor, String mensagem) {
