@@ -5,18 +5,19 @@ import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.ecotrack.domain.exception.RegraDeNegocioException;
 
 @Document(collection = "descartes")
+// historico do usuario: filtra por usuario e ja devolve ordenado pela data
+@CompoundIndex(name = "usuario_data", def = "{'usuarioId': 1, 'data': -1}")
 public class Descarte {
 
     @Id
     private String id;
 
-    @Indexed
     private String usuarioId;
 
     private String pontoColetaId;
