@@ -36,6 +36,7 @@ export function MeuHistorico() {
         {historico.map((descarte) => (
           <li key={descarte.id}>
             {new Date(descarte.data).toLocaleDateString("pt-BR")} —{" "}
+            {descarte.pontoColetaNome ?? "ponto não informado"} —{" "}
             {descarte.materiais.map((item) => `${item.quantidade} ${item.unidade} de ${item.tipo}`).join(", ")}
           </li>
         ))}
