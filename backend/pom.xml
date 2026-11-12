@@ -17,6 +17,8 @@
 	<properties>
 		<java.version>21</java.version>
 		<springdoc.version>2.6.0</springdoc.version>
+		<!-- o 1.19 do spring boot nao conversa com docker engine 29 -->
+		<testcontainers.version>1.21.4</testcontainers.version>
 	</properties>
 
 	<dependencies>
