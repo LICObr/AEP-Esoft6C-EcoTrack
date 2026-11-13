@@ -235,3 +235,80 @@
 .tabela td:nth-child(n + 3) {
   text-align: right;
 }
+
+/* admin */
+.admin {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.admin .formulario {
+  max-width: none;
+}
+
+.lista-admin {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+}
+
+.ponto-admin {
+  display: flex;
+  padding: 14px 16px 14px 20px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition:
+    box-shadow 240ms var(--curva),
+    background-color 240ms var(--curva);
+}
+
+.ponto-admin--editando {
+  background: rgb(220 239 228 / 80%);
+  box-shadow:
+    0 0 0 2px var(--verde-700),
+    var(--sombra-suave);
+}
+
+.ponto-admin__texto {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ponto-admin__texto strong {
+  color: var(--verde-950);
+  font-size: 15.5px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.ponto-admin__texto span {
+  color: var(--texto-suave);
+  font-size: 13.5px;
+}
+
+.ponto-admin__acoes {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+@media (max-width: 900px) {
+  .admin {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .ponto-admin {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
