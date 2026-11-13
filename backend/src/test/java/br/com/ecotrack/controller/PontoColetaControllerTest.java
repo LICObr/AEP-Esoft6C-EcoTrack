@@ -2,10 +2,12 @@ package br.com.ecotrack.controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -129,5 +131,44 @@ class PontoColetaControllerTest {
     void deveDesativarPontoERetornar204() throws Exception {
         mockMvc.perform(delete("/api/pontos/1"))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void deveBuscarPontoPorId() throws Exception {
+        when(pontoColetaService.buscarPorId("1"))
+                .thenReturn(new PontoColeta("Eco Ponto", endereco, Set.of(Material.PILHAS)));
+
+        mockMvc.perform(get("/api/pontos/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome", is("Eco Ponto")))
+                .andExpect(jsonPath("$.endereco.cidade", is("Maringá")));
+    }
+
+    @Test
+    void deveAtualizarPontoERetornar200() throws Exception {
+        when(pontoColetaService.atualizar(eq("1"), any(), any(), any()))
+                .thenReturn(new PontoColeta("Eco Ponto Novo", endereco, Set.of(Material.VIDRO)));
+
+        mockMvc.perform(put("/api/pontos/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"nome":"Eco Ponto Novo","endereco":{"rua":"Av. Brasil","numero":"1","bairro":"Centro","cidade":"Maringá","estado":"PR"},"materiaisAceitos":["VIDRO"]}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome", is("Eco Ponto Novo")))
+                .andExpect(jsonPath("$.materiaisAceitos[0]", is("VIDRO")));
+    }
+
+    @Test
+    void deveRetornar404AoAtualizarPontoQueNaoExiste() throws Exception {
+        when(pontoColetaService.atualizar(eq("9"), any(), any(), any()))
+                .thenThrow(new RecursoNaoEncontradoException("Ponto de coleta nao encontrado."));
+
+        mockMvc.perform(put("/api/pontos/9")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"nome":"Eco Ponto","endereco":{"rua":"Av. Brasil","numero":"1","bairro":"Centro","cidade":"Maringá","estado":"PR"},"materiaisAceitos":["VIDRO"]}
+                                """))
+                .andExpect(status().isNotFound());
     }
 }
