@@ -1,0 +1,64 @@
+/* pontos de coleta */
+.filtros {
+  display: grid;
+  max-width: 640px;
+  margin-bottom: 28px;
+  padding: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.grade-pontos {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+  list-style: none;
+}
+
+.ponto {
+  display: flex;
+  padding: 22px;
+  flex-direction: column;
+  gap: 12px;
+  animation: subir 520ms var(--curva) both;
+  transition:
+    transform 260ms var(--curva),
+    box-shadow 260ms var(--curva);
+}
+
+.ponto:hover {
+  box-shadow:
+    0 0 0 1px rgb(23 49 39 / 6%),
+    var(--sombra-forte);
+  transform: translateY(-3px);
+}
+
+.ponto h3 {
+  color: var(--verde-950);
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.ponto__endereco {
+  color: var(--texto-suave);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.ponto__materiais {
+  display: flex;
+  margin-top: auto;
+  padding-top: 4px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+@media (max-width: 640px) {
+  .filtros {
+    grid-template-columns: 1fr;
+  }
+}
