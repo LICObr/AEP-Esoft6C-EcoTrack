@@ -19,6 +19,7 @@ export function App() {
           <Route path="/admin" element={<AdminPontos />} />
         </Routes>
       </main>
+      <footer className="rodape">EcoTrack · AEP 2026.2 · ODS 12, consumo e produção responsáveis</footer>
     </BrowserRouter>
   )
 }
