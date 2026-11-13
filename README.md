@@ -29,6 +29,7 @@
 - [Como executar](#como-executar)
 - [Como testar e gerar a cobertura](#como-testar-e-gerar-a-cobertura)
 - [Documentação](#documentação)
+- [Como trabalhamos](#como-trabalhamos)
 - [Demonstração](#demonstração)
 - [Equipe](#equipe)
 - [Versão desta entrega](#versão-desta-entrega)
@@ -221,6 +222,13 @@ validação de entrada, sem comportamento próprio).
 | [`docs/arquitetura.md`](docs/arquitetura.md) | Camadas e responsabilidades |
 | [`CHANGELOG.md`](CHANGELOG.md) | O que mudou da entrega 1 pra entrega 2 |
 
+## Como trabalhamos
+
+- **Quadro de tarefas:** [EcoTrack - Entrega 2](https://github.com/users/LICObr/projects/2), com uma issue por tarefa entregue, cada uma ligada ao PR que a resolveu.
+- **Uma branch por tarefa**, saindo da `develop`, com commits pequenos (um assunto por commit).
+- **Todo código entra por pull request** na `develop`, com o CI verde (backend, testes e build do front, lint).
+- **A `main` só recebe a `develop` pronta**, e cada versão tem tag e release (`v1.0.0-entrega1`, `v2.0.1-entrega2`).
+
 ## Demonstração
 
 Prints de cada tela no [manual do usuário](docs/manual-usuario.md). Vídeo: _[link aqui após gravar]_
@@ -235,7 +243,7 @@ Prints de cada tela no [manual do usuário](docs/manual-usuario.md). Vídeo: _[l
 
 ## Versão desta entrega
 
-`v2.0.1-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
+`v2.0.2-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Licença
 
