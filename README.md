@@ -5,7 +5,8 @@
 **Plataforma para descarte responsável e localização de pontos de coleta**
 
 ![CI](https://github.com/LICObr/AEP-Esoft6C-EcoTrack/actions/workflows/ci.yml/badge.svg)
-![Cobertura](https://img.shields.io/badge/cobertura-98%25-brightgreen)
+![Cobertura backend](https://img.shields.io/badge/cobertura%20backend-98%25-brightgreen)
+![Cobertura front](https://img.shields.io/badge/cobertura%20front-97%25-brightgreen)
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-6DB33F?logo=springboot&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white)
@@ -195,8 +196,8 @@ Detalhes, `explain` e consultas prontas em [`docs/modelagem-nosql.md`](docs/mode
 | JaCoCo | Mede e garante a cobertura mínima de 70% a cada entrega |
 | springdoc-openapi (Swagger) | Documentação e teste manual dos endpoints |
 | React + Vite + TypeScript | Interface para demonstrar o fluxo completo de ponta a ponta |
-| Vitest + Testing Library | Testes das telas, com a API mockada |
-| GitHub Actions | CI que roda `./mvnw verify` (backend) e `npm test` + `npm run build` (front) a cada push/PR |
+| Vitest + Testing Library | Testes das telas, do menu e da camada de API, com a API mockada, e cobertura com v8 |
+| GitHub Actions | CI que roda `./mvnw verify` (backend) e lint, `npm run test:coverage` e `npm run build` (front) a cada push/PR |
 
 ## Como executar
 
@@ -238,20 +239,25 @@ cidades novas e os nomes nos descartes.
 cd backend
 ./mvnw verify
 
-# frontend
+# frontend (testes e cobertura)
 cd frontend
-npm test
+npm run test:coverage
 ```
 
-Hoje são **101 testes no backend** e **6 no front**. O JaCoCo mede **98% das instruções** (283 de
-287 linhas) e **86% dos branches** (o `verify` falha abaixo de 70%). O relatório fica em
-`backend/target/site/jacoco/index.html`. Print da medição em
-[`docs/cobertura-entrega2.png`](docs/cobertura-entrega2.png).
+Hoje são **101 testes no backend** e **37 no front**, e o limite mínimo de **70% vale nos dois**: o
+`verify` do backend e o `test:coverage` do front falham abaixo disso, e o CI roda os dois.
+
+| | Testes | Cobertura | Ferramenta | Relatório |
+|---|---|---|---|---|
+| Backend | 101 | **98%** das instruções (283 de 287 linhas) e 86% dos branches | JaCoCo | `backend/target/site/jacoco/index.html` · [print](docs/cobertura-entrega2.png) |
+| Front | 37 | **97%** das linhas e 96% dos branches | Vitest + v8 | `frontend/coverage/index.html` · [print](docs/cobertura-front.png) |
 
 **Exclusões do JaCoCo** (justificativa): `EcotrackApplication` (classe de bootstrap, sem lógica
 de negócio), pacote `config` (beans de infraestrutura — conexão, CORS, OpenAPI, seed e o esquema
 do Mongo; o esquema é testado à parte contra um MongoDB real) e pacote `dto` (records de
 validação de entrada, sem comportamento próprio).
+
+**Exclusões da cobertura do front**: arquivos de teste, `setupTestes.ts`, `main.tsx` (só monta o app) e `tipos.ts` (só tipos, sem código executável).
 
 ## Documentação
 
@@ -270,7 +276,7 @@ validação de entrada, sem comportamento próprio).
 - **Quadro de tarefas:** [EcoTrack - Entrega 2](https://github.com/users/LICObr/projects/2), com uma issue por tarefa entregue, cada uma ligada ao PR que a resolveu.
 - **Uma branch por tarefa**, saindo da `develop`, com commits pequenos (um assunto por commit).
 - **Todo código entra por pull request** na `develop`, com o CI verde (backend, testes e build do front, lint).
-- **A `main` só recebe a `develop` pronta**, e cada versão tem tag e release (`v1.0.0-entrega1`, `v2.1.0-entrega2`).
+- **A `main` só recebe a `develop` pronta**, e cada versão tem tag e release (`v1.0.0-entrega1`, `v2.2.0-entrega2`).
 
 ## Demonstração
 
@@ -286,7 +292,7 @@ Prints de tela, banco e código na seção [Prints](#prints) e no [manual do usu
 
 ## Versão desta entrega
 
-`v2.1.0-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
+`v2.2.0-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Licença
 

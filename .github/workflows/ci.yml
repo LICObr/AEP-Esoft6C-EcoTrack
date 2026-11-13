@@ -59,8 +59,8 @@ jobs:
       - name: Lint do front
         run: npm run lint
 
-      - name: Testes do front
-        run: npm test
+      - name: Testes e cobertura do front
+        run: npm run test:coverage
 
       - name: Build do front
         run: npm run build
