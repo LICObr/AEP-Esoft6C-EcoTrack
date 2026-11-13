@@ -79,4 +79,14 @@ class UsuarioControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].nome", is("Joao")));
     }
+
+    @Test
+    void deveBuscarUsuarioPorId() throws Exception {
+        when(usuarioService.buscarPorId("1")).thenReturn(new Usuario("Joao", "joao@email.com"));
+
+        mockMvc.perform(get("/api/usuarios/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome", is("Joao")))
+                .andExpect(jsonPath("$.email", is("joao@email.com")));
+    }
 }
