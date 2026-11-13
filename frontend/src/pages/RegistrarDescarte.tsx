@@ -3,12 +3,8 @@ import { registrarDescarte } from "../api/descartes";
 import { ErroDeRequisicao } from "../api/cliente";
 import { listarPontos } from "../api/pontosColeta";
 import { listarUsuarios } from "../api/usuarios";
+import { MATERIAIS, UNIDADES } from "../api/constantes";
 import type { Material, PontoColeta, Unidade, Usuario } from "../api/tipos";
-
-const MATERIAIS: Material[] = [
-  "PILHAS", "ELETRONICOS", "OLEO", "PLASTICO", "PAPEL", "VIDRO", "METAL",
-];
-const UNIDADES: Unidade[] = ["UNIDADE", "KG", "LITRO"];
 
 export function RegistrarDescarte() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);

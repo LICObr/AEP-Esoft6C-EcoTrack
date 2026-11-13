@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { listarCidades, listarPontos } from "../api/pontosColeta";
+import { MATERIAIS } from "../api/constantes";
 import type { Material, PontoColeta } from "../api/tipos";
-
-const MATERIAIS: Material[] = [
-  "PILHAS", "ELETRONICOS", "OLEO", "PLASTICO", "PAPEL", "VIDRO", "METAL",
-];
 
 export function PontosColeta() {
   const [pontos, setPontos] = useState<PontoColeta[]>([]);

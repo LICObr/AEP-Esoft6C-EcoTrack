@@ -1,13 +1,8 @@
-export type Material =
-  | "PILHAS"
-  | "ELETRONICOS"
-  | "OLEO"
-  | "PLASTICO"
-  | "PAPEL"
-  | "VIDRO"
-  | "METAL";
+import type { MATERIAIS, UNIDADES } from "./constantes";
 
-export type Unidade = "UNIDADE" | "KG" | "LITRO";
+export type Material = (typeof MATERIAIS)[number];
+
+export type Unidade = (typeof UNIDADES)[number];
 
 export interface Endereco {
   rua: string;
