@@ -3,6 +3,7 @@ import { registrarDescarte } from "../api/descartes";
 import { ErroDeRequisicao } from "../api/cliente";
 import { listarPontos } from "../api/pontosColeta";
 import { listarUsuarios } from "../api/usuarios";
+import { TituloPagina } from "../components/TituloPagina";
 import { MATERIAIS, UNIDADES } from "../api/constantes";
 import type { Material, PontoColeta, Unidade, Usuario } from "../api/tipos";
 
@@ -14,7 +15,8 @@ export function RegistrarDescarte() {
   const [material, setMaterial] = useState<Material>("PILHAS");
   const [quantidade, setQuantidade] = useState(1);
   const [unidade, setUnidade] = useState<Unidade>("UNIDADE");
-  const [mensagem, setMensagem] = useState("");
+  const [aviso, setAviso] = useState<{ texto: string; erro: boolean } | null>(null);
+  const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
     listarUsuarios().then(setUsuarios);
@@ -23,68 +25,91 @@ export function RegistrarDescarte() {
 
   async function registrar(evento: React.FormEvent) {
     evento.preventDefault();
-    setMensagem("");
+    setAviso(null);
+    setEnviando(true);
 
     try {
       await registrarDescarte(usuarioId, pontoColetaId, [{ tipo: material, quantidade, unidade }]);
-      setMensagem("Descarte registrado com sucesso!");
+      setAviso({ texto: "Descarte registrado com sucesso!", erro: false });
     } catch (erro) {
       if (erro instanceof ErroDeRequisicao) {
-        setMensagem(`Erro (${erro.status}): ${erro.message}`);
+        setAviso({ texto: `Erro (${erro.status}): ${erro.message}`, erro: true });
       } else {
-        setMensagem("Erro inesperado ao registrar o descarte.");
+        setAviso({ texto: "Erro inesperado ao registrar o descarte.", erro: true });
       }
+    } finally {
+      setEnviando(false);
     }
   }
 
   return (
-    <section>
-      <h2>Registrar descarte</h2>
+    <section className="pagina">
+      <TituloPagina
+        etiqueta="Seu impacto"
+        titulo="Registrar descarte"
+        descricao="Conte o que você levou até um ponto de coleta. A gente confere se o ponto aceita o material."
+      />
 
-      <form onSubmit={registrar}>
-        <label htmlFor="usuario">Usuário</label>
-        <select id="usuario" value={usuarioId} onChange={(e) => setUsuarioId(e.target.value)} required>
-          <option value="">Selecione</option>
-          {usuarios.map((usuario) => (
-            <option key={usuario.id} value={usuario.id}>{usuario.nome}</option>
-          ))}
-        </select>
+      <form className="formulario cartao" onSubmit={registrar}>
+        <div className="grade-campos">
+          <div className="campo">
+            <label htmlFor="usuario">Usuário</label>
+            <select id="usuario" value={usuarioId} onChange={(e) => setUsuarioId(e.target.value)} required>
+              <option value="">Selecione</option>
+              {usuarios.map((usuario) => (
+                <option key={usuario.id} value={usuario.id}>{usuario.nome}</option>
+              ))}
+            </select>
+          </div>
 
-        <label htmlFor="ponto">Ponto de coleta</label>
-        <select id="ponto" value={pontoColetaId} onChange={(e) => setPontoColetaId(e.target.value)} required>
-          <option value="">Selecione</option>
-          {pontos.map((ponto) => (
-            <option key={ponto.id} value={ponto.id}>{ponto.nome}</option>
-          ))}
-        </select>
+          <div className="campo">
+            <label htmlFor="ponto">Ponto de coleta</label>
+            <select id="ponto" value={pontoColetaId} onChange={(e) => setPontoColetaId(e.target.value)} required>
+              <option value="">Selecione</option>
+              {pontos.map((ponto) => (
+                <option key={ponto.id} value={ponto.id}>{ponto.nome}</option>
+              ))}
+            </select>
+          </div>
 
-        <label htmlFor="material">Material</label>
-        <select id="material" value={material} onChange={(e) => setMaterial(e.target.value as Material)}>
-          {MATERIAIS.map((m) => (
-            <option key={m} value={m}>{m}</option>
-          ))}
-        </select>
+          <div className="campo campo--cheio">
+            <label htmlFor="material">Material</label>
+            <select id="material" value={material} onChange={(e) => setMaterial(e.target.value as Material)}>
+              {MATERIAIS.map((m) => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+          </div>
 
-        <label htmlFor="quantidade">Quantidade</label>
-        <input
-          id="quantidade"
-          type="number"
-          min={1}
-          value={quantidade}
-          onChange={(e) => setQuantidade(Number(e.target.value))}
-        />
+          <div className="campo">
+            <label htmlFor="quantidade">Quantidade</label>
+            <input
+              id="quantidade"
+              type="number"
+              min={1}
+              value={quantidade}
+              onChange={(e) => setQuantidade(Number(e.target.value))}
+            />
+          </div>
 
-        <label htmlFor="unidade">Unidade</label>
-        <select id="unidade" value={unidade} onChange={(e) => setUnidade(e.target.value as Unidade)}>
-          {UNIDADES.map((u) => (
-            <option key={u} value={u}>{u}</option>
-          ))}
-        </select>
+          <div className="campo">
+            <label htmlFor="unidade">Unidade</label>
+            <select id="unidade" value={unidade} onChange={(e) => setUnidade(e.target.value as Unidade)}>
+              {UNIDADES.map((u) => (
+                <option key={u} value={u}>{u}</option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-        <button type="submit">Registrar</button>
+        <div className="formulario__acoes">
+          <button type="submit" className="botao" disabled={enviando}>Registrar</button>
+        </div>
+
+        {aviso && (
+          <p role="status" className={aviso.erro ? "aviso aviso--erro" : "aviso"}>{aviso.texto}</p>
+        )}
       </form>
-
-      {mensagem && <p role="status">{mensagem}</p>}
     </section>
   );
 }

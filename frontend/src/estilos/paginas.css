@@ -62,3 +62,24 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* formularios (registrar e admin) */
+.formulario {
+  display: flex;
+  max-width: 720px;
+  padding: 28px;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.formulario__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 560px) {
+  .formulario {
+    padding: 20px;
+  }
+}
