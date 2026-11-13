@@ -26,4 +26,12 @@ describe('Dashboard', () => {
 
     expect(await screen.findByText('Nenhum descarte registrado ainda.')).toBeInTheDocument()
   })
+
+  it('mostra carregando enquanto a api nao responde', () => {
+    vi.mocked(api.buscarDashboard).mockReturnValue(new Promise(() => {}))
+
+    render(<Dashboard />)
+
+    expect(screen.getByText('Carregando...')).toBeInTheDocument()
+  })
 })

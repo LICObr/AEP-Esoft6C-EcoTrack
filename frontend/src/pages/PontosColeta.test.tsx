@@ -35,4 +35,21 @@ describe('PontosColeta', () => {
 
     await waitFor(() => expect(api.listarPontos).toHaveBeenLastCalledWith(undefined, 'Sarandi'))
   })
+
+  it('busca de novo com o material escolhido no filtro', async () => {
+    render(<PontosColeta />)
+    await screen.findByText('Eco Ponto Centro')
+
+    await userEvent.selectOptions(screen.getByLabelText('Filtrar por material:'), 'PILHAS')
+
+    await waitFor(() => expect(api.listarPontos).toHaveBeenLastCalledWith('PILHAS', undefined))
+  })
+
+  it('avisa quando nenhum ponto bate com os filtros', async () => {
+    vi.mocked(api.listarPontos).mockResolvedValue([])
+
+    render(<PontosColeta />)
+
+    expect(await screen.findByText('Nenhum ponto encontrado com esses filtros.')).toBeInTheDocument()
+  })
 })
