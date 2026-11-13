@@ -23,6 +23,7 @@
 - [O problema](#o-problema)
 - [ODS 12 — Consumo e Produção Responsáveis](#ods-12--consumo-e-produção-responsáveis)
 - [Funcionalidades](#funcionalidades)
+- [Prints](#prints)
 - [Arquitetura](#arquitetura)
 - [Modelagem do banco (MongoDB)](#modelagem-do-banco-mongodb)
 - [Tecnologias e por quê](#tecnologias-e-por-quê)
@@ -79,6 +80,48 @@ Da segunda entrega:
 - [x] Edição de ponto de coleta na tela de admin.
 - [x] Erro 400 de corpo inválido (JSON quebrado, material que não existe) no mesmo formato dos
   outros erros da API.
+
+## Prints
+
+### Telas
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/img/pontos.jpg" alt="Pontos de coleta com filtro por cidade e material"><br><sub><b>Pontos de coleta</b>: filtros por material e cidade</sub></td>
+    <td width="50%"><img src="docs/img/dashboard.jpg" alt="Dashboard com total por material e unidade"><br><sub><b>Dashboard</b>: total por material e unidade (agregação do Mongo)</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/img/registrar.jpg" alt="Registro de descarte"><br><sub><b>Registrar descarte</b>: valida se o ponto aceita o material</sub></td>
+    <td width="50%"><img src="docs/img/historico.jpg" alt="Histórico em linha do tempo"><br><sub><b>Histórico</b>: mostra o ponto de cada descarte</sub></td>
+  </tr>
+</table>
+
+O passo a passo de cada tela, inclusive a de admin, está no [manual do usuário](docs/manual-usuario.md).
+
+### Banco de dados (MongoDB)
+
+Saídas reais do `mongosh` com o seed (8 pontos e 10 descartes).
+
+| | |
+|---|---|
+| **Documento do descarte** com os nomes copiados (referência estendida) | **Índices** criados pela aplicação |
+| <img src="docs/img/banco-documento.png" alt="Documento de descarte no mongosh"> | <img src="docs/img/banco-indices.png" alt="Índices das três coleções"> |
+| **`explain`**: `IXSCAN` nas três consultas, sem ordenação em memória | **Agregação** do dashboard, por material e unidade |
+| <img src="docs/img/banco-explain.png" alt="explain com IXSCAN"> | <img src="docs/img/banco-agregacao.png" alt="Resultado da agregação"> |
+
+**Validação de esquema** (`$jsonSchema`) na coleção `descartes`:
+
+<img src="docs/img/banco-validacao.png" alt="Validação de esquema no mongosh" width="480">
+
+### Código
+
+O modelo do descarte, com o índice composto e a referência estendida:
+
+<img src="docs/img/codigo-modelo.png" alt="Classe Descarte" width="760">
+
+A agregação que alimenta o dashboard:
+
+<img src="docs/img/codigo-agregacao.png" alt="Agregação do total por material" width="760">
 
 ## Arquitetura
 
@@ -227,11 +270,11 @@ validação de entrada, sem comportamento próprio).
 - **Quadro de tarefas:** [EcoTrack - Entrega 2](https://github.com/users/LICObr/projects/2), com uma issue por tarefa entregue, cada uma ligada ao PR que a resolveu.
 - **Uma branch por tarefa**, saindo da `develop`, com commits pequenos (um assunto por commit).
 - **Todo código entra por pull request** na `develop`, com o CI verde (backend, testes e build do front, lint).
-- **A `main` só recebe a `develop` pronta**, e cada versão tem tag e release (`v1.0.0-entrega1`, `v2.0.1-entrega2`).
+- **A `main` só recebe a `develop` pronta**, e cada versão tem tag e release (`v1.0.0-entrega1`, `v2.1.0-entrega2`).
 
 ## Demonstração
 
-Prints de cada tela no [manual do usuário](docs/manual-usuario.md). Vídeo: _[link aqui após gravar]_
+Prints de tela, banco e código na seção [Prints](#prints) e no [manual do usuário](docs/manual-usuario.md). Vídeo: _[link aqui após gravar]_
 
 ## Equipe
 
@@ -243,7 +286,7 @@ Prints de cada tela no [manual do usuário](docs/manual-usuario.md). Vídeo: _[l
 
 ## Versão desta entrega
 
-`v2.0.2-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
+`v2.1.0-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Licença
 
