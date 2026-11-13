@@ -2,6 +2,12 @@
 
 Formato baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). Cada item aponta pro PR onde entrou.
 
+## [2.0.2] — quadro de tarefas
+
+### Adicionado
+
+- Link do quadro de tarefas e resumo de como o time trabalha no README
+
 ## [2.0.1] — ajustes finais da entrega 2
 
 ### Adicionado
