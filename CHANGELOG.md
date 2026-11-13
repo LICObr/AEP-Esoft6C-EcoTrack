@@ -2,6 +2,25 @@
 
 Formato baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). Cada item aponta pro PR onde entrou.
 
+## [2.1.0] — visual novo e prints
+
+### Adicionado
+
+- Visual novo do front, no estilo macOS: header em vidro verde com menu em pílula, cartões translúcidos, botões que esmaecem no hover, no clique e quando desativados, chips de material e animações suaves
+- Fundo com textura de mini símbolos de reciclagem em verde escuro e ilustração translúcida das lixeiras da coleta seletiva
+- Favicon e componente `TituloPagina` compartilhado pelas telas
+- Prints de telas, banco (documento, índices, `explain`, agregação, validação) e código no README
+
+### Alterado
+
+- CSS dividido por assunto em `src/estilos/`
+- Botão de registrar fica desativado enquanto envia, o que evita clique duplo
+- Prints do manual do usuário refeitos com o visual novo, em JPEG
+
+### Removido
+
+- Componente `Placeholder`, que sobrou do esqueleto inicial e não era usado
+
 ## [2.0.2] — quadro de tarefas
 
 ### Adicionado

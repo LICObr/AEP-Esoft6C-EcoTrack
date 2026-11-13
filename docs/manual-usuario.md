@@ -4,7 +4,7 @@ O EcoTrack ajuda você a descobrir onde descartar pilhas, eletrônicos, óleo, p
 
 ## Pontos de coleta
 
-![Pontos de coleta](img/pontos.png)
+![Pontos de coleta](img/pontos.jpg)
 
 1. Abra a tela inicial: ela lista os pontos ativos.
 2. Para achar onde descartar um material, escolha ele em **Filtrar por material**.
@@ -12,7 +12,7 @@ O EcoTrack ajuda você a descobrir onde descartar pilhas, eletrônicos, óleo, p
 
 ## Registrar descarte
 
-![Registrar descarte](img/registrar.png)
+![Registrar descarte](img/registrar.jpg)
 
 1. Escolha o **usuário** e o **ponto de coleta**.
 2. Escolha o **material**, a **quantidade** e a **unidade** (unidade, kg ou litro).
@@ -22,19 +22,19 @@ O EcoTrack ajuda você a descobrir onde descartar pilhas, eletrônicos, óleo, p
 
 ## Meu histórico
 
-![Histórico](img/historico.png)
+![Histórico](img/historico.jpg)
 
 Escolha o usuário. Aparece cada descarte com a data, o ponto onde foi feito e o que foi descartado, do mais recente para o mais antigo. Descartes antigos, de antes do ponto ser guardado, aparecem como "ponto não informado".
 
 ## Dashboard
 
-![Dashboard](img/dashboard.png)
+![Dashboard](img/dashboard.jpg)
 
 Mostra quantos descartes já foram registrados e a quantidade total por material. A quantidade é separada por unidade: o que foi em kg não é somado com o que foi em litro.
 
 ## Admin de pontos
 
-![Admin](img/admin.png)
+![Admin](img/admin.jpg)
 
 - **Cadastrar:** preencha nome, endereço e marque os materiais que o ponto aceita (pelo menos um). Clique em **Cadastrar ponto**.
 - **Editar:** clique em **Editar** ao lado do ponto, mude o que precisar e clique em **Salvar alterações**. **Cancelar edição** volta ao formulário vazio.

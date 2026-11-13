@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { atualizarPonto, cadastrarPonto, desativarPonto, listarPontos } from "../api/pontosColeta";
 import { MATERIAIS } from "../api/constantes";
 import type { Material, PontoColeta } from "../api/tipos";
+import { TituloPagina } from "../components/TituloPagina";
 
 export function AdminPontos() {
   const [pontos, setPontos] = useState<PontoColeta[]>([]);
@@ -69,57 +70,97 @@ export function AdminPontos() {
   }
 
   return (
-    <section>
-      <h2>Admin de pontos</h2>
+    <section className="pagina">
+      <TituloPagina
+        etiqueta="Administração"
+        titulo="Admin de pontos"
+        descricao="Cadastre, edite e desative os pontos de coleta que aparecem para todo mundo."
+      />
 
-      <form onSubmit={salvar}>
-        <label htmlFor="nome-ponto">Nome</label>
-        <input id="nome-ponto" value={nome} onChange={(e) => setNome(e.target.value)} required />
+      <div className="admin">
+        <form className="formulario cartao" onSubmit={salvar}>
+          <div className="grade-campos">
+            <div className="campo campo--cheio">
+              <label htmlFor="nome-ponto">Nome</label>
+              <input id="nome-ponto" value={nome} onChange={(e) => setNome(e.target.value)} required />
+            </div>
 
-        <label htmlFor="rua-ponto">Rua</label>
-        <input id="rua-ponto" value={rua} onChange={(e) => setRua(e.target.value)} required />
+            <div className="campo">
+              <label htmlFor="rua-ponto">Rua</label>
+              <input id="rua-ponto" value={rua} onChange={(e) => setRua(e.target.value)} required />
+            </div>
 
-        <label htmlFor="numero-ponto">Número</label>
-        <input id="numero-ponto" value={numero} onChange={(e) => setNumero(e.target.value)} />
+            <div className="campo">
+              <label htmlFor="numero-ponto">Número</label>
+              <input id="numero-ponto" value={numero} onChange={(e) => setNumero(e.target.value)} />
+            </div>
 
-        <label htmlFor="bairro-ponto">Bairro</label>
-        <input id="bairro-ponto" value={bairro} onChange={(e) => setBairro(e.target.value)} />
+            <div className="campo">
+              <label htmlFor="bairro-ponto">Bairro</label>
+              <input id="bairro-ponto" value={bairro} onChange={(e) => setBairro(e.target.value)} />
+            </div>
 
-        <label htmlFor="cidade-ponto">Cidade</label>
-        <input id="cidade-ponto" value={cidade} onChange={(e) => setCidade(e.target.value)} required />
+            <div className="campo">
+              <label htmlFor="cidade-ponto">Cidade</label>
+              <input id="cidade-ponto" value={cidade} onChange={(e) => setCidade(e.target.value)} required />
+            </div>
 
-        <label htmlFor="estado-ponto">Estado</label>
-        <input id="estado-ponto" value={estado} onChange={(e) => setEstado(e.target.value)} required />
+            <div className="campo">
+              <label htmlFor="estado-ponto">Estado</label>
+              <input id="estado-ponto" value={estado} onChange={(e) => setEstado(e.target.value)} required />
+            </div>
+          </div>
 
-        <fieldset>
-          <legend>Materiais aceitos</legend>
-          {MATERIAIS.map((material) => (
-            <label key={material}>
-              <input
-                type="checkbox"
-                checked={materiais.includes(material)}
-                onChange={() => alternarMaterial(material)}
-              />
-              {material}
-            </label>
+          <fieldset className="opcoes">
+            <legend>Materiais aceitos</legend>
+            <div className="opcoes__lista">
+              {MATERIAIS.map((material) => (
+                <label key={material} className="opcao">
+                  <input
+                    type="checkbox"
+                    checked={materiais.includes(material)}
+                    onChange={() => alternarMaterial(material)}
+                  />
+                  {material}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div className="formulario__acoes">
+            <button type="submit" className="botao">
+              {editandoId ? "Salvar alterações" : "Cadastrar ponto"}
+            </button>
+            {editandoId && (
+              <button type="button" className="botao botao--secundario" onClick={limparFormulario}>
+                Cancelar edição
+              </button>
+            )}
+          </div>
+        </form>
+
+        <ul className="lista-admin">
+          {pontos.map((ponto) => (
+            <li
+              key={ponto.id}
+              className={ponto.id === editandoId ? "ponto-admin ponto-admin--editando cartao" : "ponto-admin cartao"}
+            >
+              <div className="ponto-admin__texto">
+                <strong>{ponto.nome}</strong>
+                <span>{ponto.endereco.cidade}</span>
+              </div>
+              <div className="ponto-admin__acoes">
+                <button className="botao botao--secundario botao--pequeno" onClick={() => iniciarEdicao(ponto)}>
+                  Editar
+                </button>
+                <button className="botao botao--perigo botao--pequeno" onClick={() => desativar(ponto.id)}>
+                  Desativar
+                </button>
+              </div>
+            </li>
           ))}
-        </fieldset>
-
-        <button type="submit">{editandoId ? "Salvar alterações" : "Cadastrar ponto"}</button>
-        {editandoId && (
-          <button type="button" onClick={limparFormulario}>Cancelar edição</button>
-        )}
-      </form>
-
-      <ul>
-        {pontos.map((ponto) => (
-          <li key={ponto.id}>
-            {ponto.nome} — {ponto.endereco.cidade}{" "}
-            <button onClick={() => iniciarEdicao(ponto)}>Editar</button>{" "}
-            <button onClick={() => desativar(ponto.id)}>Desativar</button>
-          </li>
-        ))}
-      </ul>
+        </ul>
+      </div>
     </section>
   );
 }
