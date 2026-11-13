@@ -2,6 +2,18 @@
 
 Formato baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). Cada item aponta pro PR onde entrou.
 
+## [2.0.1] — ajustes finais da entrega 2
+
+### Adicionado
+
+- Testes dos controllers que faltavam: usuário por id, ponto por id e atualização, e `/api/health` com Mongo no ar e fora. Os controllers vão a 100% das linhas (#29)
+- Lint do front no CI (#30)
+
+### Alterado
+
+- Lista de materiais e unidades numa fonte única no front, com os tipos derivados dela. Antes estava copiada em 3 telas (#28)
+- Histórico e tela de pontos sem `setState` dentro de `useEffect`, como o lint apontava (#30)
+
 ## [2.0.0] — entrega 2
 
 ### Adicionado
