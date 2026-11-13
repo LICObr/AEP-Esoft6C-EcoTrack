@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="340" viewBox="0 0 720 340" fill="none">
+  <defs>
+    <path id="lixeira" d="M0 0H96L88 166Q87 172 81 172H15Q9 172 8 166Z"/>
+  </defs>
+  <ellipse cx="360" cy="326" rx="340" ry="10" fill="#123d2b" fill-opacity=".10"/>
+
+  <!-- papel (azul), com a tampa aberta -->
+  <g transform="translate(60 150)">
+    <use href="#lixeira" fill="#3b82c4"/>
+    <g transform="rotate(-24 0 -6)"><rect x="-2" y="-18" width="100" height="16" rx="7" fill="#2f6ca8"/></g>
+    <rect x="30" y="50" width="36" height="46" rx="4" fill="#fff" fill-opacity=".9"/>
+    <path d="M37 64H59M37 74H59M37 84H51" stroke="#3b82c4" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- plastico (vermelho) -->
+  <g transform="translate(220 150)">
+    <use href="#lixeira" fill="#d4574e"/>
+    <rect x="-2" y="-18" width="100" height="16" rx="7" fill="#b9443c"/>
+    <path d="M42 52H54V60Q62 66 62 78V98Q62 104 56 104H40Q34 104 34 98V78Q34 66 42 60Z" fill="#fff" fill-opacity=".9"/>
+  </g>
+
+  <!-- vidro (verde) -->
+  <g transform="translate(380 150)">
+    <use href="#lixeira" fill="#3fae7c"/>
+    <rect x="-2" y="-18" width="100" height="16" rx="7" fill="#2f9366"/>
+    <path d="M43 50H53V68Q64 76 64 90V100Q64 106 58 106H38Q32 106 32 100V90Q32 76 43 68Z" fill="#fff" fill-opacity=".9"/>
+  </g>
+
+  <!-- metal (amarelo) -->
+  <g transform="translate(540 150)">
+    <use href="#lixeira" fill="#e5b93c"/>
+    <rect x="-2" y="-18" width="100" height="16" rx="7" fill="#c99e26"/>
+    <rect x="32" y="56" width="32" height="46" rx="6" fill="#fff" fill-opacity=".9"/>
+    <path d="M32 68H64M32 90H64" stroke="#e5b93c" stroke-width="3"/>
+  </g>
+
+  <!-- papel caindo na lixeira certa -->
+  <g transform="translate(88 52) rotate(14)">
+    <rect width="30" height="38" rx="4" fill="#fff" stroke="#3b82c4" stroke-width="3"/>
+    <path d="M7 12H23M7 21H23M7 30H17" stroke="#3b82c4" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <path d="M200 36C168 24 146 38 132 62" stroke="#123d2b" stroke-opacity=".55" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9"/>
+  <path d="M126 50L130 68L146 60" stroke="#123d2b" stroke-opacity=".55" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -40,6 +40,7 @@ html {
 
 body {
   position: relative;
+  isolation: isolate;
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
@@ -52,26 +53,27 @@ body {
   line-height: 1.5;
 }
 
-/* textura de folhas bem leve por cima do fundo */
+/* textura de mini simbolos de reciclagem, em verde escuro, bem leve */
 body::before {
   position: fixed;
   z-index: -2;
   inset: 0;
-  background: url("../assets/textura-folhas.svg") repeat;
+  background: url("../assets/simbolo-reciclavel.svg") repeat;
   content: "";
   pointer-events: none;
 }
 
-/* folhagem grande no canto, so decoracao */
+/* lixeiras da coleta seletiva no canto: mostra pra onde cada material vai */
 body::after {
   position: fixed;
   z-index: -1;
-  right: -90px;
-  bottom: -110px;
-  width: min(560px, 70vw);
-  aspect-ratio: 1;
-  background: url("../assets/folhagem.svg") no-repeat center / contain;
+  right: -24px;
+  bottom: -6px;
+  width: min(720px, 92vw);
+  aspect-ratio: 720 / 340;
+  background: url("../assets/descarte-correto.svg") no-repeat center / contain;
   content: "";
+  opacity: 0.34;
   pointer-events: none;
 }
 
@@ -125,6 +127,11 @@ a {
 }
 
 @media (max-width: 560px) {
+  body::after {
+    width: 360px;
+    opacity: 0.2;
+  }
+
   .conteudo-principal,
   .rodape {
     width: min(100% - 28px, 1120px);
