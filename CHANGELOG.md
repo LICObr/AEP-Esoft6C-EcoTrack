@@ -2,6 +2,19 @@
 
 Formato baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). Cada item aponta pro PR onde entrou.
 
+## [2.2.0] — cobertura de testes do front
+
+### Adicionado
+
+- Medição de cobertura do front com Vitest e v8 (`npm run test:coverage`), que estava em 38% das linhas e foi a 97%
+- 31 testes novos no front (37 no total): cliente http, chamadas da API, menu, rotas, histórico, admin de pontos e os caminhos de erro e de lista vazia
+- Limite mínimo de 70% de cobertura no front, que derruba o CI se for quebrado, igual ao JaCoCo no backend
+- Print da cobertura do front em `docs/cobertura-front.png`
+
+### Alterado
+
+- O job de front do CI roda `npm run test:coverage` no lugar de `npm test`
+
 ## [2.1.0] — visual novo e prints
 
 ### Adicionado
