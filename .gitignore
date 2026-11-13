@@ -10,3 +10,6 @@ frontend/dist/
 Thumbs.db
 .env
 guias/
+
+# relatorio de cobertura do front
+frontend/coverage/
