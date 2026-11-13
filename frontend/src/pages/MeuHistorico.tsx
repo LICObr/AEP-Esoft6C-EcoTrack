@@ -13,12 +13,12 @@ export function MeuHistorico() {
   }, []);
 
   useEffect(() => {
-    if (usuarioId) {
-      listarHistorico(usuarioId).then(setHistorico);
-    } else {
-      setHistorico([]);
-    }
+    if (!usuarioId) return;
+    listarHistorico(usuarioId).then(setHistorico);
   }, [usuarioId]);
+
+  // sem usuario escolhido nao mostra nada
+  const descartes = usuarioId ? historico : [];
 
   return (
     <section>
@@ -33,7 +33,7 @@ export function MeuHistorico() {
       </select>
 
       <ul>
-        {historico.map((descarte) => (
+        {descartes.map((descarte) => (
           <li key={descarte.id}>
             {new Date(descarte.data).toLocaleDateString("pt-BR")} —{" "}
             {descarte.pontoColetaNome ?? "ponto não informado"} —{" "}

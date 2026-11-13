@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { listarCidades, listarPontos } from "../api/pontosColeta";
+import { MATERIAIS } from "../api/constantes";
 import type { Material, PontoColeta } from "../api/tipos";
-
-const MATERIAIS: Material[] = [
-  "PILHAS", "ELETRONICOS", "OLEO", "PLASTICO", "PAPEL", "VIDRO", "METAL",
-];
 
 export function PontosColeta() {
   const [pontos, setPontos] = useState<PontoColeta[]>([]);
@@ -18,11 +15,20 @@ export function PontosColeta() {
   }, []);
 
   useEffect(() => {
-    setCarregando(true);
     listarPontos(materialSelecionado || undefined, cidadeSelecionada || undefined)
       .then(setPontos)
       .finally(() => setCarregando(false));
   }, [materialSelecionado, cidadeSelecionada]);
+
+  function escolherMaterial(material: Material | "") {
+    setCarregando(true);
+    setMaterialSelecionado(material);
+  }
+
+  function escolherCidade(cidade: string) {
+    setCarregando(true);
+    setCidadeSelecionada(cidade);
+  }
 
   return (
     <section>
@@ -32,7 +38,7 @@ export function PontosColeta() {
       <select
         id="filtro-material"
         value={materialSelecionado}
-        onChange={(evento) => setMaterialSelecionado(evento.target.value as Material | "")}
+        onChange={(evento) => escolherMaterial(evento.target.value as Material | "")}
       >
         <option value="">Todos</option>
         {MATERIAIS.map((material) => (
@@ -44,7 +50,7 @@ export function PontosColeta() {
       <select
         id="filtro-cidade"
         value={cidadeSelecionada}
-        onChange={(evento) => setCidadeSelecionada(evento.target.value)}
+        onChange={(evento) => escolherCidade(evento.target.value)}
       >
         <option value="">Todas</option>
         {cidades.map((cidade) => (

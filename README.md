@@ -5,7 +5,7 @@
 **Plataforma para descarte responsável e localização de pontos de coleta**
 
 ![CI](https://github.com/LICObr/AEP-Esoft6C-EcoTrack/actions/workflows/ci.yml/badge.svg)
-![Cobertura](https://img.shields.io/badge/cobertura-92%25-brightgreen)
+![Cobertura](https://img.shields.io/badge/cobertura-98%25-brightgreen)
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-6DB33F?logo=springboot&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white)
@@ -199,8 +199,8 @@ cd frontend
 npm test
 ```
 
-Hoje são **95 testes no backend** e **6 no front**. O JaCoCo mede **92% das linhas e 87% dos
-branches** (o `verify` falha abaixo de 70%). O relatório fica em
+Hoje são **101 testes no backend** e **6 no front**. O JaCoCo mede **98% das instruções** (283 de
+287 linhas) e **86% dos branches** (o `verify` falha abaixo de 70%). O relatório fica em
 `backend/target/site/jacoco/index.html`. Print da medição em
 [`docs/cobertura-entrega2.png`](docs/cobertura-entrega2.png).
 
@@ -235,7 +235,7 @@ Prints de cada tela no [manual do usuário](docs/manual-usuario.md). Vídeo: _[l
 
 ## Versão desta entrega
 
-`v2.0.0-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
+`v2.0.1-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Licença
 
