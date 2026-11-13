@@ -2,6 +2,13 @@
 
 Formato baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). Cada item aponta pro PR onde entrou.
 
+## [2.2.1] — vídeo e identificação da equipe
+
+### Adicionado
+
+- Link do vídeo de demonstração no README
+- RA e nome completo de cada integrante na tabela da equipe
+
 ## [2.2.0] — cobertura de testes do front
 
 ### Adicionado

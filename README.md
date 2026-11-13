@@ -276,23 +276,23 @@ validação de entrada, sem comportamento próprio).
 - **Quadro de tarefas:** [EcoTrack - Entrega 2](https://github.com/users/LICObr/projects/2), com uma issue por tarefa entregue, cada uma ligada ao PR que a resolveu.
 - **Uma branch por tarefa**, saindo da `develop`, com commits pequenos (um assunto por commit).
 - **Todo código entra por pull request** na `develop`, com o CI verde (backend, testes e build do front, lint).
-- **A `main` só recebe a `develop` pronta**, e cada versão tem tag e release (`v1.0.0-entrega1`, `v2.2.0-entrega2`).
+- **A `main` só recebe a `develop` pronta**, e cada versão tem tag e release (`v1.0.0-entrega1`, `v2.2.1-entrega2`).
 
 ## Demonstração
 
-Prints de tela, banco e código na seção [Prints](#prints) e no [manual do usuário](docs/manual-usuario.md). Vídeo: _[link aqui após gravar]_
+Prints de tela, banco e código na seção [Prints](#prints) e no [manual do usuário](docs/manual-usuario.md). Vídeo: [youtu.be/Dk106YOYzBk](https://youtu.be/Dk106YOYzBk)
 
 ## Equipe
 
 | RA | Nome | Frente |
 |---|---|---|
-| — | Danilo | Modelagem do MongoDB (índices, agregação, distinct), regras de negócio e services |
-| — | Pedro | Dashboard e filtros na API, telas do front (dashboard, cidade, edição), testes de tela e docs de API e manual |
-| — | Talis | Testes com MongoDB real, validação de esquema, docs de modelagem, produto e decisões |
+| 24391649-2 | Danilo Mori Schuler | Modelagem do MongoDB (índices, agregação, distinct), regras de negócio e services |
+| 24055157-2 | Pedro Luiz Carvalho Mendes | Dashboard e filtros na API, telas do front (dashboard, cidade, edição), testes de tela e docs de API e manual |
+| 24023640-2 | Talis de Mello Sossai | Testes com MongoDB real, validação de esquema, docs de modelagem, produto e decisões |
 
 ## Versão desta entrega
 
-`v2.2.0-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
+`v2.2.1-entrega2` — veja o [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Licença
 
