@@ -1,0 +1,147 @@
+:root {
+  --verde-950: #123d2b;
+  --verde-800: #1a6242;
+  --verde-700: #227a50;
+  --verde-500: #2e9a68;
+  --verde-100: #dcefe4;
+  --verde-50: #edf7f1;
+  --texto: #173127;
+  --texto-suave: #5c7067;
+  --borda: #d6e2da;
+  --branco: #ffffff;
+  --erro: #b3261e;
+  --erro-fundo: #fdecea;
+
+  --raio: 14px;
+  --raio-grande: 22px;
+  --sombra-suave: 0 1px 2px rgb(18 61 43 / 6%), 0 12px 32px rgb(25 73 51 / 7%);
+  --sombra-forte: 0 2px 4px rgb(18 61 43 / 8%), 0 24px 60px rgb(25 73 51 / 12%);
+  --curva: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  color: var(--texto);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Segoe UI",
+    system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: #eef5f0;
+}
+
+body {
+  position: relative;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(1100px 560px at 88% -8%, rgb(46 154 104 / 20%), transparent 62%),
+    radial-gradient(900px 520px at -8% 24%, rgb(34 122 80 / 13%), transparent 58%),
+    radial-gradient(800px 480px at 60% 110%, rgb(63 174 124 / 14%), transparent 60%),
+    linear-gradient(180deg, #f6faf7 0%, #eaf3ed 100%);
+  background-attachment: fixed;
+  line-height: 1.5;
+}
+
+/* textura de folhas bem leve por cima do fundo */
+body::before {
+  position: fixed;
+  z-index: -2;
+  inset: 0;
+  background: url("../assets/textura-folhas.svg") repeat;
+  content: "";
+  pointer-events: none;
+}
+
+/* folhagem grande no canto, so decoracao */
+body::after {
+  position: fixed;
+  z-index: -1;
+  right: -90px;
+  bottom: -110px;
+  width: min(560px, 70vw);
+  aspect-ratio: 1;
+  background: url("../assets/folhagem.svg") no-repeat center / contain;
+  content: "";
+  pointer-events: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgb(46 154 104 / 28%);
+}
+
+.conteudo-principal {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 56px 0 72px;
+}
+
+.rodape {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 0 0 36px;
+  color: var(--texto-suave);
+  font-size: 13px;
+  text-align: center;
+}
+
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .conteudo-principal,
+  .rodape {
+    width: min(100% - 28px, 1120px);
+  }
+
+  .conteudo-principal {
+    padding: 36px 0 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

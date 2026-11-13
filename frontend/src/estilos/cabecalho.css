@@ -1,0 +1,120 @@
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid rgb(255 255 255 / 14%);
+  background: rgb(18 61 43 / 96%);
+  color: var(--branco);
+  backdrop-filter: blur(12px);
+}
+
+.cabecalho__conteudo {
+  display: flex;
+  width: min(1120px, calc(100% - 40px));
+  min-height: 76px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.marca {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  color: var(--branco);
+  text-decoration: none;
+}
+
+.marca__icone {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 10%);
+  font-size: 22px;
+}
+
+.marca strong,
+.marca small {
+  display: block;
+}
+
+.marca strong {
+  font-size: 19px;
+  line-height: 1.1;
+}
+
+.marca small {
+  margin-top: 3px;
+  color: #b9d9c6;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.navegacao {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navegacao__link {
+  padding: 10px 12px;
+  border-radius: 9px;
+  color: #cde2d5;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.navegacao__link:hover {
+  background: rgb(255 255 255 / 8%);
+  color: var(--branco);
+}
+
+.navegacao__link:focus-visible,
+.marca:focus-visible {
+  outline: 3px solid #8ed0a7;
+  outline-offset: 2px;
+}
+
+.navegacao__link--ativo {
+  background: var(--branco);
+  color: var(--verde-950);
+}
+
+@media (max-width: 900px) {
+  .cabecalho__conteudo {
+    padding: 16px 0;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .navegacao {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .navegacao__link {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .cabecalho__conteudo {
+    width: min(100% - 28px, 1120px);
+  }
+
+  .marca small {
+    display: none;
+  }
+}
