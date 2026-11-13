@@ -158,3 +158,80 @@
   flex-wrap: wrap;
   gap: 6px;
 }
+
+/* dashboard */
+.total {
+  display: inline-block;
+  min-width: 260px;
+  margin-bottom: 24px;
+  padding: 22px 28px;
+  color: var(--texto-suave);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.total strong {
+  display: block;
+  margin-top: 4px;
+  background: linear-gradient(135deg, var(--verde-950), var(--verde-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: clamp(52px, 9vw, 76px);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  text-transform: none;
+}
+
+.tabela-cartao {
+  max-width: 720px;
+  overflow-x: auto;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabela th {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--borda);
+  color: var(--texto-suave);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.tabela td {
+  padding: 15px 22px;
+  border-bottom: 1px solid rgb(23 49 39 / 6%);
+}
+
+.tabela tbody tr {
+  transition: background-color 200ms var(--curva);
+}
+
+.tabela tbody tr:hover {
+  background: rgb(220 239 228 / 55%);
+}
+
+.tabela tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tabela td:first-child {
+  color: var(--verde-950);
+  font-weight: 650;
+}
+
+.tabela th:nth-child(n + 3),
+.tabela td:nth-child(n + 3) {
+  text-align: right;
+}
